@@ -1,122 +1,137 @@
 <!DOCTYPE html>
 <html lang="id">
-    <head>
-        <meta-charset="UTF-8">
-        <meta-name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Habit Tracker</title>
-        <script src="https://cdn.tailwindcss.com"></script>
-        <script src="https://unpkg.com/lucide@latest"></script>
-        <link rel="stylesheet" href="assets/style.css">
-    </head>
 
-    <body class="bg-slate-950 text-slate-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habit Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="assets/style.css">
+</head>
 
-        <div id="loadingScreen" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950">
-            <div class="text-center">
-                <div class="mx-auto h-14 w-14 animate-spin rounded-full border-4 border-cyan-500 border-t-transparent"></div>
-                <p class="mt-4 text-sm text-slate-400">Loading...</p>
+<body class="bg-slate-950 text-slate-100">
+
+    <div id="loadingScreen" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950">
+        <div class="text-center">
+            <div class="mx-auto h-14 w-14 animate-spin rounded-full border-4 border-cyan-500 border-t-transparent">
             </div>
+            <p class="mt-4 text-sm text-slate-400">Loading...</p>
         </div>
-        <div id="app" class="hidden min-h-screen lg:flex">
-            <aside id="sidebar" class="flex flex-col w-72 shrink-0 border-r border-slate-800 bg-slate-900">
-                <div class="border-b border-slate-800 p-6">
+    </div>
+    <div id="app" class="hidden min-h-screen lg:flex">
+        <aside id="sidebar" class="flex flex-col w-72 shrink-0 border-r border-slate-800 bg-slate-900">
+            <div class="border-b border-slate-800 p-6">
                 <div class="flex items-center gap-4">
-                <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-500 text-slate-950">
-                <i data-lucide="flame"></i>
-                </div>
-            <div>
-                <h1 class="text-lg font-bold">Habit Tracker</h1>
-                <p class="text-sm text-slate-400">Build better habits</p>
-                </div>
+                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-500 text-slate-950">
+                        <i data-lucide="flame"></i>
+                    </div>
+                    <div>
+                        <p class="text-lg font-bold">Habit Tracker</p>
+                        <p class="text-sm text-slate-400">Build better habits</p>
+                    </div>
                 </div>
             </div>
             <nav id="sidebarNav" class="flex-1 space-y-2 p-4"></nav>
             <div class="border-t border-slate-800 p-4">
                 <div class="flex items-center gap-3 rounded-xl bg-slate-800 p-3">
-                    <div class="flex h-11 w-11 items-center justify-center rounded-full bg-cyan-500 font-bold text-slate-950">A</div>
+                    <div
+                        class="flex h-11 w-11 items-center justify-center rounded-full bg-cyan-500 font-bold text-slate-950">
+                        A</div>
                     <div>
                         <p class="font-medium">Alter</p>
                         <p class="text-sm text-slate-400">Keep Your Streak</p>
                     </div>
                 </div>
             </div>
-            </aside>
-            <main id="mainContent" class="flex flex-1 flex-col overflow-hidden">
-                <!-- Navbar -->
-                 <header id="navbar" class="flex h-20 items-center justify-between border-b border-slate-800 bg-slate-900 px-8">
+        </aside>
+        <main id="mainContent" class="flex flex-1 flex-col overflow-hidden">
+            <!-- Navbar -->
+            <header id="navbar"
+                class="flex h-20 items-center justify-between border-b border-slate-800 bg-slate-900 px-8">
 
-                    <!-- Left -->
-                     <div class="flex items-center gap-4">
+                <!-- Left -->
+                <div class="flex items-center gap-4">
 
-                        <!-- Mobile Sidebar Button -->
-                         <button id="menuBtn" class="rounded-xl p-2 transition hover:bg-slate-800 lg:hidden"><i data-lucide="menu"></i></button>
+                    <!-- Mobile Sidebar Button -->
+                    <button id="menuBtn" class="rounded-xl p-2 transition hover:bg-slate-800 lg:hidden"><i
+                            data-lucide="menu"></i></button>
 
-                         <div>
-                            <h2 id="pageTitle" class="text-2xl font-bold">Dashboard</h2>
-                            <p id="pageDescription" class="text-sm text-slate-400">Welcome back, Alter</p>
-                         </div>
-                     </div>
+                    <div>
+                        <h2 id="pageTitle" class="text-2xl font-bold">Dashboard</h2>
+                        <p id="pageDescription" class="text-sm text-slate-400">Welcome back, Alter</p>
+                    </div>
+                </div>
 
-                     <!-- Right -->
-                      <div class="flex items-center gap-3">
-                        
-                        <!-- Search -->
-                         <button id="searchBtn" class="rounded-xl bg-slate-800 p-3 transition hover:bg-slate-700"><i data-lucide="search"></i></button>
+                <!-- Right -->
+                <div class="flex items-center gap-3">
 
-                         <!-- Notification -->
-                        <button id="notificationBtn" class="relative rounded-xl bg-slate-800 p-3 transition hover:bg-slate-700"><i data-lucide="bell"></i>
+                    <!-- Search -->
+                    <button id="searchBtn" class="rounded-xl bg-slate-800 p-3 transition hover:bg-slate-700"><i
+                            data-lucide="search"></i></button>
+
+                    <!-- Notification -->
+                    <button id="notificationBtn"
+                        class="relative rounded-xl bg-slate-800 p-3 transition hover:bg-slate-700"><i
+                            data-lucide="bell"></i>
                         <span class="absolute right-2 top-2 h-2 w-2 rounded-full bg-red-500"></span>
-                        </button>
+                    </button>
 
-                        <!-- Dark Mode -->
-                         <button id="themeBtn" class="rounded-xl bg-slate-800 p-3 transition hover:bg-slate-700"><i data-lucide="moon"></i></button>
+                    <!-- Dark Mode -->
+                    <button id="themeBtn" class="rounded-xl bg-slate-800 p-3 transition hover:bg-slate-700"><i
+                            data-lucide="moon"></i></button>
 
-                         <!-- Add Habit -->
-                          <button id="addHabitBtn" class="flex items-center gap-2 rounded-xl bg-cyan-500 px-5 py-3 font-medium text-slate-950 transition hover:bg-cyan-400"><i data-lucide="plus"></i><span>Add Habit</span>
-                        </button>
-                      </div>
-                 </header>
-                 <!-- Dashboard -->
-                  <section id="dashboard" class="flex-1 overflow-y-auto p-8">
+                    <!-- Add Habit -->
+                    <button id="addHabitBtn"
+                        class="flex items-center gap-2 rounded-xl bg-cyan-500 px-5 py-3 font-medium text-slate-950 transition hover:bg-cyan-400"><i
+                            data-lucide="plus"></i><span>Add Habit</span>
+                    </button>
+                </div>
+            </header>
+            <!-- Dashboard -->
+            <section id="dashboard" class="flex-1 overflow-y-auto p-8">
 
-                    <!-- Hero -->
-                     <section id="heroBanner" class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-cyan-600 via-sky-600 to-blue-700 p-8">
+                <!-- Hero -->
+                <section id="heroBanner"
+                    class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-cyan-600 via-sky-600 to-blue-700 p-8">
 
-                        <!-- Background Blur -->
-                         <div class="absolute -right-16 -top-16 h-52 w-52 rounded-full bg-white/10 blur-3xl"></div>
+                    <!-- Background Blur -->
+                    <div class="absolute -right-16 -top-16 h-52 w-52 rounded-full bg-white/10 blur-3xl"></div>
 
-                         <div class="absolute -bottom-20 left-20 h-56 w-56 rounded-full bg-cyan-300/10 blur-3xl"></div>
+                    <div class="absolute -bottom-20 left-20 h-56 w-56 rounded-full bg-cyan-300/10 blur-3xl"></div>
 
-                         <!-- Content -->
-                          <div class="relative z-10">
+                    <!-- Content -->
+                    <div class="relative z-10">
 
-                            <p id="currentDate" class="text-sm font-medium uppercase tracking-widest text-cyan-100">Saturday, 18 July 2026</p>
+                        <p id="currentDate" class="text-sm font-medium uppercase tracking-widest text-cyan-100">
+                            Saturday, 18 July 2026</p>
 
-                            <h1 class="mt-3 text-4xl font-extrabold">Good Evening, Alter</h1>
+                        <h1 class="mt-3 text-4xl font-extrabold">Good Evening, Alter</h1>
 
-                            <p class="mt-3 max-w-2xl text-cyan-100">Small progress every day builds remarkable results. Keep your streak alive and make today count.</p>
+                        <p class="mt-3 max-w-2xl text-cyan-100">Small progress every day builds remarkable results. Keep
+                            your streak alive and make today count.</p>
 
-                          </div>
-                     </section>
-                 </section>
+                    </div>
+                </section>
 
-                 <!-- Stats Grid -->
-                  <section id="statsGrid" class="mt-8 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+                <!-- Stats Grid -->
+                <section id="statsGrid" class="mt-8 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
 
                     <!-- Current Streak -->
-                     <article id="streakCard" class="rounded-2xl border border-slate-800 bg-slate-900 p-6">
-                        
+                    <article id="streakCard" class="rounded-2xl border border-slate-800 bg-slate-900 p-6">
+
                         <div class="flex items-center justify-between">
                             <div>
                                 <p class="text-sm text-slate-400">Current Streak</p>
                                 <h2 id="streakValue" class="mt-2 text-3xl font-bold">0</h2>
                             </div>
-                            <div class="rounded-2xl bg-orange-500/10 p-4 text-orange-400"><i data-lucide="flame"></i></div>
+                            <div class="rounded-2xl bg-orange-500/10 p-4 text-orange-400"><i data-lucide="flame"></i>
+                            </div>
                         </div>
-                     </article>
+                    </article>
 
-                     <!-- Level -->
-                      <article id="levelCard" class="rounded-2xl border border-slate-800 bg-slate-900 p-6">
+                    <!-- Level -->
+                    <article id="levelCard" class="rounded-2xl border border-slate-800 bg-slate-900 p-6">
                         <div class="flex items-center justify-between">
                             <div>
                                 <p class="text-sm text-slate-400">Level</p>
@@ -124,64 +139,314 @@
                             </div>
                             <div class="rounded-2xl bg-cyan-500/10 p-4 text-cyan-400"><i data-lucide="star"></i></div>
                         </div>
-                      </article>
-                      <!-- Progress -->
-                       <article id="progressCard" class="rounded-2xl border border-slate-800 bg-slate-900 p-6">
+                    </article>
+                    <!-- Progress -->
+                    <article id="progressCard" class="rounded-2xl border border-slate-800 bg-slate-900 p-6">
                         <div class="flex items-center justify-between">
                             <div>
                                 <p class="text-sm text-slate-400">Today's Progress</p>
                                 <h2 id="progressValue" class="mt-2 text-3xl font-bold">0%</h2>
                             </div>
-                            <div class="rounded-2xl bg-green-500/10 p-4 text-green-400"><i data-lucide="target"></i></div>
-                        </div>
-                       </article>
-                       <!-- Achievement -->
-                        <article id="achievementCard" class="rounded-2xl border border-slate-800 bg-slate-900 p-6">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <p class="text-sm text-slate-400">Achievements</p>
-                                    <h2 id="achievementValue" class="mt-2 text-3xl font-bold">0 / 32</h2>
-                                </div>
-                                <div class="rounded-2xl bg-yellow-500/10 p-4 text-yellow-400"><i data-lucide="trophy"></i></div>
+                            <div class="rounded-2xl bg-green-500/10 p-4 text-green-400"><i data-lucide="target"></i>
                             </div>
-                        </article>
-                  </section>
-                  <!-- Main Content -->
-                   <section id="mainGrid" class="mt-8 grid gap-8 xl:grid-cols-3">
+                        </div>
+                    </article>
+                    <!-- Achievement -->
+                    <article id="achievementCard" class="rounded-2xl border border-slate-800 bg-slate-900 p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-slate-400">Achievements</p>
+                                <h2 id="achievementValue" class="mt-2 text-3xl font-bold">0 / 32</h2>
+                            </div>
+                            <div class="rounded-2xl bg-yellow-500/10 p-4 text-yellow-400"><i data-lucide="trophy"></i>
+                            </div>
+                        </div>
+                    </article>
+                </section>
+                <!-- Main Content -->
+                <section id="mainGrid" class="mt-8 grid gap-8 xl:grid-cols-3">
 
                     <!-- Left Column -->
-                     <section id="leftColumn" class="space-y-8 xl:cols-span-2">
+                    <section id="leftColumn" class="space-y-8 xl:col-span-2">
                         <!-- Today's Habits -->
-                         <section id="todayHabits" class="rounded-3xl border border-slate-800 bg-slate-900">
+                        <section id="todayHabits" class="rounded-3xl border border-slate-800 bg-slate-900">
 
                             <!-- Header -->
-                             <header class="flex items-center justify-between border-b border-slate-800 p-6">
+                            <header class="flex items-center justify-between border-b border-slate-800 p-6">
                                 <div>
                                     <h2 class="text-xl font-bold">Today's Habits</h2>
                                     <p class="mt-1 text-sm text-slate-400">Complete your daily routine.</p>
                                 </div>
-                                <button id="viewAllHabitsBtn" class="rounded-xl bg-slate-800 px-4 py-2 text-sm transition hover:bg-slate-700">View All</button>
-                             </header>
-                             <!-- Habit List -->
-                              <div id="habitList" class="divide-y divide-slate-800"></div>
-                              <!-- Empty State -->
-                               <div id="emptyHabitState" class="flex flex-col items-center justify-center px-6 py-16"><i data-lucide="clipboard-list" class="h-14 w-14 text-slate-600"></i>
+                                <button id="viewAllHabitsBtn"
+                                    class="rounded-xl bg-slate-800 px-4 py-2 text-sm transition hover:bg-slate-700">View
+                                    All</button>
+                            </header>
+                            <!-- Habit List -->
+                            <div id="habitList" class="divide-y divide-slate-800"></div>
+                            <!-- Empty State -->
+                            <div id="emptyHabitState" class="flex flex-col items-center justify-center px-6 py-16"><i
+                                    data-lucide="clipboard-list" class="h-14 w-14 text-slate-600"></i>
                                 <h3 class="mt-4 text-lg font-semibold">No habits yet</h3>
-                                <p class="mt-2 max-w-sm text-center text-slate-400">Create your first habit and start building a better routine.</p>
-                                <button id="createFirstHabitBtn" class="mt-6 rounded-xl bg-cyan-500 px-5 py-3 font-medium text-slate-950 transition hover:bg-cyan-400">Create habit</button>
-                               </div>
-                         </section>
+                                <p class="mt-2 max-w-sm text-center text-slate-400">Create your first habit and start
+                                    building a better routine.</p>
+                                <button id="createFirstHabitBtn"
+                                    class="mt-6 rounded-xl bg-cyan-500 px-5 py-3 font-medium text-slate-950 transition hover:bg-cyan-400">Create
+                                    habit</button>
+                            </div>
+                        </section>
+                    </section>
+
+                    <!-- Activity Heatmap -->
+                     <section id="activityHeatmap" class="rounded-3xl border border-slate-800 bg-slate-900 p-6">
+                        <!-- header -->
+                         <header class="mb-6">
+                            <h2 class="text-xl font-bold">Activity Heatmap</h2>
+                            <p class="mt-1 text-sm text-slate-400">Your consistency over the last 365 days.</p>
+                         </header>
+
+                         <!-- Month Labels -->
+                          <div id="heatmapMonths" class="mb-3 flex justify-between px-8 text-xs text-slate-500"></div>
+                          <!-- Heatmap Grid -->
+                           <div id="heatmapGrid" class="grid grid-flow-col grid-rows-7 gap-1 overflow-x-auto pb-2 "></div>
+                           <!-- Legend -->
+                            <footer class="mt-6 flex items-center justify-end gap-2 text-xs text-slate-500">
+                                <span>Less</span>
+                                <div class="h-3 w-3 rounded-sm bg-slate-800"></div>
+                                <div class="h-3 w-3 rounded-sm bg-cyan-900"></div>
+                                <div class="h-3 w-3 rounded-sm bg-cyan-700"></div>
+                                <div class="h-3 w-3 rounded-sm bg-cyan-500"></div>
+                                <div class="h-3 w-3 rounded-sm bg-cyan-300"></div>
+                                <span>More</span>
+                            </footer>
                      </section>
 
-                     <!-- Right Column -->
-                      <aside id="rightColumn" class="space-y-8">
+                     <!-- Recent Acitvity -->
+                      <section id="recentActivity" class="rounded-3xl border border-slate-800 bg-slate-900 p-6">
+                        <!-- Header -->
+                         <header class="mb-6 flex items-center justify-between">
+                            <div>
+                                <h2 class="text-xl font-bold">Recent Activity</h2>
+                                <p class="mt-1 text-sm text-slate-400">Your latest completed habits and achievements.</p>
+                            </div>
+                            <button id="clearActivityBtn" class="rounded-xl bg-slate-800 px-4 py-2 text-sm transition hover:bg-slate-700">Clear</button>
+                         </header>
+                         <!-- Activity List -->
+                          <div id="activityList" class="space-y-4"></div>
+                          <!-- Empty State -->
+                           <div id="emptyActivityState" class="flex flex-col items-center justify-center py-14">
+                            <i data-lucide="history" class="h-12 w-12 text-slate-600"></i>
+                            <h3 class="mt-4 text-lg font-semibold">No recent activity</h3>
+                            <p class="mt-2 max-w-sm text-center text-sm text-slate-400">Complete your habits to build your activity history.</p>
+                        </div>
+                      </section>
 
-                      </aside>
-
-                   </section>
-            </main>
-        </div>
-        <script>lucide.createIcons();</script>
-        <script src="assets/main.js"></script>
-    </body>
+                    <!-- Right Column -->
+                    <aside id="rightColumn" class="space-y-8">
+                        <section id="dailyProgress" class="rounded-3xl border border-slate-800 bg-slate-900 p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h2 class="text-xl font-bold">Daily Progress</h2>
+                                    <p class="mt-1 text-sm text-slate-400">Your completion rate for today</p>
+                                </div>
+                                <div class="rounded-xl bg-cyan-500/10 p-3 text-cyan-400"><i data-lucide="activity"></i>
+                                </div>
+                            </div>
+                            <div class="mt-8 flex justify-center">
+                                <div class="relative h-48 w-48">
+                                    <svg class="h-48 w-48 rotate-90" viewBox="0 0 160 160">
+                                        <circle cx="80" cy="80" r="64" stroke="#1e293b" stroke-width="14" fill="none" />
+                                        <circle id="progressCircle" cx="80" cy="80" r="64" stroke="#06b6d4"
+                                            stroke-width="14" stroke-linecap="round" stroke-dasharray="402"
+                                            stroke-dashoffset="100" fill="none" />
+                                    </svg>
+                                    <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+                                        <span id="progressPercent" class="text-4xl font-extrabold">0%</span>
+                                        <span class="mt-1 text-sm text-slate-400">0 of 0 completed</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <section id="weeklyGoal" class="rounded-3xl border border-slate-800 bg-slate-900 p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h2 class="text-xl font-bold">
+                                        Weekly Goal
+                                    </h2>
+                                    <p class="mt-1 text-sm text-slate-400">Stay consistent this week.</p>
+                                </div>
+                                <div class="rounded-xl bg-green-500/10 p-3 text-green-400"><i data-lucide="target"></i>
+                                </div>
+                            </div>
+                            <div class="mt-6">
+                                <div class="mb-2 flex items-center justify-between text-sm">
+                                    <span class="text-slate-300">0 / 0 habits completed</span>
+                                    <span class="font-semibold text-green-400">0%</span>
+                                </div>
+                                <div class="h-3 overflow-hidden rounded-full bg-slate-800">
+                                    <div id="weeklyGoalBar"
+                                        class="h-full rounded-full bg-gradient-to-r from-green-400 to-emerald-500">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-6 grid grid-cols-7 gap-2 text-center text-xs">
+                                <div class="rounded-lg bg-green-500/20 py-2 text-green-400">M</div>
+                                <div class="rounded-lg bg-green-500/20 py-2 text-green-400">T</div>
+                                <div class="rounded-lg bg-green-500/20 py-2 text-green-400">W</div>
+                                <div class="rounded-lg bg-green-500/20 py-2 text-green-400">T</div>
+                                <div class="rounded-lg bg-slate-800 py-2 text-slate-400">F</div>
+                                <div class="rounded-lg bg-slate-800 py-2 text-slate-400">S</div>
+                                <div class="rounded-lg bg-slate-800 py-2 text-slate-400">S</div>
+                            </div>
+                        </section>
+                    </aside>
+                    <!-- Achievements -->
+                     <section id="achievements" class="rounded-3xl border border-slate-800 bg-slate-900 p-6">
+                        <!-- Header -->
+                         <header class="mb-6 flex items-center justify-between">
+                            <div>
+                                <h2 class="text-xl font-bold">Achievements</h2>
+                                <p class="mt-1 text-sm text-slate-400">Unlock rewards by staying consistent.</p>
+                            </div>
+                            <span id="achievementCount" class="rounded-full bg-slate-800 px-3 py-1 text-xs font-medium text-slate-300">0 / 0</span>
+                         </header>
+                         <!-- Achievement List -->
+                          <div id="achievementList" class="space-y-4"></div>
+                          <!-- Empty State -->
+                           <div id="emptyAchievementState" class="flex flex-col items-center justify-center py-14">
+                            <i data-lucide="award" class="h-12 w-12 text-slate-600"></i>
+                            <h3 class="mt-4 text-lg font-semibold">No achievements yet.</h3>
+                            <p class="Keep completing your habits to unlock your first achievement."
+                           </div>
+                     </section>
+                </section>
+            </section>
+        </main>
+    </div>
+    <script>lucide.createIcons();</script>
+    <!-- Habit Modal -->
+     <div id="habitModal" class="fixed inset-0 z-50 hidden items-center jusitfy-center bg-black/70 p-6 backdrop-blur-sm">
+        <!-- Modal -->
+         <div class="w-full max-w-2xl rounded-3xl border border-slate-800 bg-slate-900">
+            <!-- Header -->
+             <header class="flex items-center justify-between border-b border-slate-800 p-6">
+                <div>
+                    <h2 id="habitModalTitle" class="text-2xl font-bold">Add Habit</h2>
+                    <p class="mt-1 text-sm text-slate-400">Create a new habit to start building consistency.</p>
+                </div>
+                <button id="closeHabitModal" class="rounded-xl p-2 transition hover:bg-slate-800">
+                    <i data-lucide="x" class="h-5 w-5"></i>
+                </button>
+             </header>
+             <!-- Form -->
+              <form id="habitForm" class="space-y-6 p-6">
+                <!-- Habit Name -->
+                 <div>
+                    <label for="habitName" class="mb-2 block text-sm font-medium">Habit Name</label>
+                    <input id="habitName" type="text" placeholder="e.g. Read 20 Pages" class="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 outline-none transition focus:border-cyan-500">
+                 </div>
+                 <!-- Category & Priority -->
+                  <div class="grid gap-6 md:grid-cols-2">
+                    <!-- Category -->
+                     <div>
+                        <label for="habitCategory" class="mb-2 block text-sm font-medium">Category</label>
+                        <select id="habitCategory" class="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3">
+                            <option>Health</option>
+                            <option>Study</option>
+                            <option>Fitness</option>
+                            <option>Work</option>
+                            <option>Personal</option>
+                        </select>
+                     </div>
+                     <!-- Priority -->
+                      <div>
+                        <label for="habitPriority" class="mb-2 block text-sm font-medium">Priority</label>
+                        <select id="habitPriority" class="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3">
+                            <option>Low</option>
+                            <option selected>Medium</option>
+                            <option>High</option>
+                        </select>
+                      </div>
+                  </div>
+                  <!-- Daily Goal -->
+                   <div>
+                    <label for="habitGoal" class="mb-2 block text-sm font-medium">Daily Goal</label>
+                    <input id="habitGoal" type="number" min="1" value="1" class="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3">
+                   </div>
+                   <!-- Notes -->
+                    <div>
+                        <label for="habitNotes" class="mb-2 block text-sm font-medium">Notes</label>
+                        <textarea id="habitNotes" rows="4" placeholder="Optional..." class="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 resize-none"></textarea>
+                    </div>
+                    <!-- Habit Icon -->
+                     <div>
+                        <label class="mb-2 block text-sm font-medium">Icon</label>
+                        <div id="habitIconPicker" class="grid grid-cols-6 gap-3 sm:grid-cols-8"></div>
+                     </div>
+                     <!-- Habit Color -->
+                      <div>
+                        <label class="mb-2 block text-sm font-medium">Color</label>
+                        <div id="habitColorPicker" class="flex flex-wrap gap-3"></div>
+                      </div>
+                      <!-- Modal Footer -->
+                       <footer class="flex flex-col-reverse gap-3 border-t border-slate-800 pt-6 sm:flex-row sm:justify-end">
+                        <button id="cancelHabitBtn" type="button" class="rounded-xl border border-slate-700 px-5 py-3 transition hover:bg-slate-800">Cancel</button>
+                        <button id="saveHabitBtn" type="submit" class="rounded-xl bg-cyan-500 px-5 py-3 font-semibold text-slate-950 transition hover:bg-cyan-400">Save Habit</button>
+                       </footer>
+              </form>
+         </div>
+     </div>
+     <!-- Delete Confirmation Modal -->
+      <div id="deleteModal" class="fixed inset-0 z-[55] hidden items-center justify-center bg-black/70 p-6 backdrop-blur-sm">
+        <!-- Modal -->
+         <div class="w-full max-w-md rounded-3xl border border-slate-800 bg-slate-900">
+            <!-- Header -->
+             <header class="p-6 text-center">
+                <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-red-500/15">
+                    <i data-lucide="triangle-alert" class="h-8 w-8 text-red-400"></i>
+                </div>
+                <h2 class="mt-5 text-2xl font-bold">Delete Habit?</h2>
+                <p class="mt-2 text-sm leading-6 text-slate-400">This action cannot be undone. Your progress, streak, and history for this habit will be permanently removed.</p>
+             </header>
+             <!-- Footer -->
+              <footer class="flex flex-col-reverse gap-3 border-t border-slate-800 p-6 sm:flex-row sm:justify-end">
+                <button id="cancelDeleteBtn" type="button" class="rounded-xl border border-slate-700 px-5 py-3 transition hover:bg-slate-800">Cancel</button>
+                <button id="confirmDeleteBtn" type="button" class="rounded-xl bg-red-500 px-5 py-3 font-semibold text-white transition hover:bg-red-400">Delete Habit</button>
+              </footer>
+         </div>
+      </div>
+      <!-- Mobile Navigation -->
+       <div id="mobileSidebar" class="fixed inset-0 z-[45] hidden">
+        <!-- Overlay -->
+         <div id="mobileSidebarOverlay" class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+         <!-- Drawer -->
+          <aside class="absolute left-0 top-0 flex h-full w-72 flex-col border-r border-slate-800 bg-slate-950">
+            <!-- Header -->
+             <header class="flex items-center justify-between border-b border-slate-800 p-6">
+                <div>
+                    <h2 class="text-xl font-bold">Habit Tracker</h2>
+                    <p class="mt-1 text-sm text-slate-400">Stay Consistent.</p>
+                </div>
+                <button id="closeMobileSidebarBtn" class="rounded-xl p-2 transition hover:bg-slate-800">
+                    <i data-lucide="x" class=" h-5 w-5"></i>
+                </button>
+             </header>
+             <!-- Navigation -->
+              <nav id="mobileNavigation" class="flex-1 space-y-2 p-6"></nav>
+              <!-- Footer -->
+               <footer class="border-t border-slate-800 p-6">
+                <button id="mobileThemeBtn" class="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-700 px-4 py-3 transition hover:bg-slate-800">
+                    <i data-lucide="moon" class="h-5 w-5"></i>
+                    <span>Toggle Theme</span>
+                </button>
+               </footer>
+          </aside>
+       </div>
+    <!-- Toast Notification -->
+     <div id="toastContainer" class="fixed right-8 top-8 z-50 flex w-full max-w-sm flex-col gap-3"></div>
+    <!-- Floating Action Button (FAB) -->
+     <button id="fabAddHabit" class="fixed bottom-8 right-8 z-40 flex h-16 w-16 items-center justify-center rounded-full bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/20 transition hover:scale-105 hover:bg-cyan-400 active:scale-95">
+        <i data-lucide="plus" class="h-7 w-7"></i>
+     </button>
+    <script src="assets/main.js"></script>
+</body>
 </html>
