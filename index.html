@@ -197,48 +197,51 @@
                     </section>
 
                     <!-- Activity Heatmap -->
-                     <section id="activityHeatmap" class="rounded-3xl border border-slate-800 bg-slate-900 p-6">
+                    <section id="activityHeatmap" class="rounded-3xl border border-slate-800 bg-slate-900 p-6">
                         <!-- header -->
-                         <header class="mb-6">
+                        <header class="mb-6">
                             <h2 class="text-xl font-bold">Activity Heatmap</h2>
                             <p class="mt-1 text-sm text-slate-400">Your consistency over the last 365 days.</p>
-                         </header>
+                        </header>
 
-                         <!-- Month Labels -->
-                          <div id="heatmapMonths" class="mb-3 flex justify-between px-8 text-xs text-slate-500"></div>
-                          <!-- Heatmap Grid -->
-                           <div id="heatmapGrid" class="grid grid-flow-col grid-rows-7 gap-1 overflow-x-auto pb-2 "></div>
-                           <!-- Legend -->
-                            <footer class="mt-6 flex items-center justify-end gap-2 text-xs text-slate-500">
-                                <span>Less</span>
-                                <div class="h-3 w-3 rounded-sm bg-slate-800"></div>
-                                <div class="h-3 w-3 rounded-sm bg-cyan-900"></div>
-                                <div class="h-3 w-3 rounded-sm bg-cyan-700"></div>
-                                <div class="h-3 w-3 rounded-sm bg-cyan-500"></div>
-                                <div class="h-3 w-3 rounded-sm bg-cyan-300"></div>
-                                <span>More</span>
-                            </footer>
-                     </section>
+                        <!-- Month Labels -->
+                        <div id="heatmapMonths" class="mb-3 flex justify-between px-8 text-xs text-slate-500"></div>
+                        <!-- Heatmap Grid -->
+                        <div id="heatmapGrid" class="grid grid-flow-col grid-rows-7 gap-1 overflow-x-auto pb-2 "></div>
+                        <!-- Legend -->
+                        <footer class="mt-6 flex items-center justify-end gap-2 text-xs text-slate-500">
+                            <span>Less</span>
+                            <div class="h-3 w-3 rounded-sm bg-slate-800"></div>
+                            <div class="h-3 w-3 rounded-sm bg-cyan-900"></div>
+                            <div class="h-3 w-3 rounded-sm bg-cyan-700"></div>
+                            <div class="h-3 w-3 rounded-sm bg-cyan-500"></div>
+                            <div class="h-3 w-3 rounded-sm bg-cyan-300"></div>
+                            <span>More</span>
+                        </footer>
+                    </section>
 
-                     <!-- Recent Acitvity -->
-                      <section id="recentActivity" class="rounded-3xl border border-slate-800 bg-slate-900 p-6">
+                    <!-- Recent Acitvity -->
+                    <section id="recentActivity" class="rounded-3xl border border-slate-800 bg-slate-900 p-6">
                         <!-- Header -->
-                         <header class="mb-6 flex items-center justify-between">
+                        <header class="mb-6 flex items-center justify-between">
                             <div>
                                 <h2 class="text-xl font-bold">Recent Activity</h2>
-                                <p class="mt-1 text-sm text-slate-400">Your latest completed habits and achievements.</p>
+                                <p class="mt-1 text-sm text-slate-400">Your latest completed habits and achievements.
+                                </p>
                             </div>
-                            <button id="clearActivityBtn" class="rounded-xl bg-slate-800 px-4 py-2 text-sm transition hover:bg-slate-700">Clear</button>
-                         </header>
-                         <!-- Activity List -->
-                          <div id="activityList" class="space-y-4"></div>
-                          <!-- Empty State -->
-                           <div id="emptyActivityState" class="flex flex-col items-center justify-center py-14">
+                            <button id="clearActivityBtn"
+                                class="rounded-xl bg-slate-800 px-4 py-2 text-sm transition hover:bg-slate-700">Clear</button>
+                        </header>
+                        <!-- Activity List -->
+                        <div id="activityList" class="space-y-4"></div>
+                        <!-- Empty State -->
+                        <div id="emptyActivityState" class="flex flex-col items-center justify-center py-14">
                             <i data-lucide="history" class="h-12 w-12 text-slate-600"></i>
                             <h3 class="mt-4 text-lg font-semibold">No recent activity</h3>
-                            <p class="mt-2 max-w-sm text-center text-sm text-slate-400">Complete your habits to build your activity history.</p>
+                            <p class="mt-2 max-w-sm text-center text-sm text-slate-400">Complete your habits to build
+                                your activity history.</p>
                         </div>
-                      </section>
+                    </section>
 
                     <!-- Right Column -->
                     <aside id="rightColumn" class="space-y-8">
@@ -300,35 +303,36 @@
                         </section>
                     </aside>
                     <!-- Achievements -->
-                     <section id="achievements" class="rounded-3xl border border-slate-800 bg-slate-900 p-6">
+                    <section id="achievements" class="rounded-3xl border border-slate-800 bg-slate-900 p-6">
                         <!-- Header -->
-                         <header class="mb-6 flex items-center justify-between">
+                        <header class="mb-6 flex items-center justify-between">
                             <div>
                                 <h2 class="text-xl font-bold">Achievements</h2>
                                 <p class="mt-1 text-sm text-slate-400">Unlock rewards by staying consistent.</p>
                             </div>
-                            <span id="achievementCount" class="rounded-full bg-slate-800 px-3 py-1 text-xs font-medium text-slate-300">0 / 0</span>
-                         </header>
-                         <!-- Achievement List -->
-                          <div id="achievementList" class="space-y-4"></div>
-                          <!-- Empty State -->
-                           <div id="emptyAchievementState" class="flex flex-col items-center justify-center py-14">
+                            <span id="achievementCount"
+                                class="rounded-full bg-slate-800 px-3 py-1 text-xs font-medium text-slate-300">0 /
+                                0</span>
+                        </header>
+                        <!-- Achievement List -->
+                        <div id="achievementList" class="space-y-4"></div>
+                        <!-- Empty State -->
+                        <div id="emptyAchievementState" class="flex flex-col items-center justify-center py-14">
                             <i data-lucide="award" class="h-12 w-12 text-slate-600"></i>
                             <h3 class="mt-4 text-lg font-semibold">No achievements yet.</h3>
-                            <p class="Keep completing your habits to unlock your first achievement."
-                           </div>
-                     </section>
+                            <p class="Keep completing your habits to unlock your first achievement." </div>
+                    </section>
                 </section>
             </section>
         </main>
     </div>
     <script>lucide.createIcons();</script>
     <!-- Habit Modal -->
-     <div id="habitModal" class="fixed inset-0 z-50 hidden items-center jusitfy-center bg-black/70 p-6 backdrop-blur-sm">
+    <div id="habitModal" class="fixed inset-0 z-50 hidden items-center jusitfy-center bg-black/70 p-6 backdrop-blur-sm">
         <!-- Modal -->
-         <div class="w-full max-w-2xl rounded-3xl border border-slate-800 bg-slate-900">
+        <div class="w-full max-w-2xl rounded-3xl border border-slate-800 bg-slate-900">
             <!-- Header -->
-             <header class="flex items-center justify-between border-b border-slate-800 p-6">
+            <header class="flex items-center justify-between border-b border-slate-800 p-6">
                 <div>
                     <h2 id="habitModalTitle" class="text-2xl font-bold">Add Habit</h2>
                     <p class="mt-1 text-sm text-slate-400">Create a new habit to start building consistency.</p>
@@ -336,92 +340,105 @@
                 <button id="closeHabitModal" class="rounded-xl p-2 transition hover:bg-slate-800">
                     <i data-lucide="x" class="h-5 w-5"></i>
                 </button>
-             </header>
-             <!-- Form -->
-              <form id="habitForm" class="space-y-6 p-6">
+            </header>
+            <!-- Form -->
+            <form id="habitForm" class="space-y-6 p-6">
                 <!-- Habit Name -->
-                 <div>
+                <div>
                     <label for="habitName" class="mb-2 block text-sm font-medium">Habit Name</label>
-                    <input id="habitName" type="text" placeholder="e.g. Read 20 Pages" class="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 outline-none transition focus:border-cyan-500">
-                 </div>
-                 <!-- Category & Priority -->
-                  <div class="grid gap-6 md:grid-cols-2">
+                    <input id="habitName" type="text" placeholder="e.g. Read 20 Pages"
+                        class="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 outline-none transition focus:border-cyan-500">
+                </div>
+                <!-- Category & Priority -->
+                <div class="grid gap-6 md:grid-cols-2">
                     <!-- Category -->
-                     <div>
+                    <div>
                         <label for="habitCategory" class="mb-2 block text-sm font-medium">Category</label>
-                        <select id="habitCategory" class="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3">
+                        <select id="habitCategory"
+                            class="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3">
                             <option>Health</option>
                             <option>Study</option>
                             <option>Fitness</option>
                             <option>Work</option>
                             <option>Personal</option>
                         </select>
-                     </div>
-                     <!-- Priority -->
-                      <div>
+                    </div>
+                    <!-- Priority -->
+                    <div>
                         <label for="habitPriority" class="mb-2 block text-sm font-medium">Priority</label>
-                        <select id="habitPriority" class="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3">
+                        <select id="habitPriority"
+                            class="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3">
                             <option>Low</option>
                             <option selected>Medium</option>
                             <option>High</option>
                         </select>
-                      </div>
-                  </div>
-                  <!-- Daily Goal -->
-                   <div>
-                    <label for="habitGoal" class="mb-2 block text-sm font-medium">Daily Goal</label>
-                    <input id="habitGoal" type="number" min="1" value="1" class="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3">
-                   </div>
-                   <!-- Notes -->
-                    <div>
-                        <label for="habitNotes" class="mb-2 block text-sm font-medium">Notes</label>
-                        <textarea id="habitNotes" rows="4" placeholder="Optional..." class="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 resize-none"></textarea>
                     </div>
-                    <!-- Habit Icon -->
-                     <div>
-                        <label class="mb-2 block text-sm font-medium">Icon</label>
-                        <div id="habitIconPicker" class="grid grid-cols-6 gap-3 sm:grid-cols-8"></div>
-                     </div>
-                     <!-- Habit Color -->
-                      <div>
-                        <label class="mb-2 block text-sm font-medium">Color</label>
-                        <div id="habitColorPicker" class="flex flex-wrap gap-3"></div>
-                      </div>
-                      <!-- Modal Footer -->
-                       <footer class="flex flex-col-reverse gap-3 border-t border-slate-800 pt-6 sm:flex-row sm:justify-end">
-                        <button id="cancelHabitBtn" type="button" class="rounded-xl border border-slate-700 px-5 py-3 transition hover:bg-slate-800">Cancel</button>
-                        <button id="saveHabitBtn" type="submit" class="rounded-xl bg-cyan-500 px-5 py-3 font-semibold text-slate-950 transition hover:bg-cyan-400">Save Habit</button>
-                       </footer>
-              </form>
-         </div>
-     </div>
-     <!-- Delete Confirmation Modal -->
-      <div id="deleteModal" class="fixed inset-0 z-[55] hidden items-center justify-center bg-black/70 p-6 backdrop-blur-sm">
+                </div>
+                <!-- Daily Goal -->
+                <div>
+                    <label for="habitGoal" class="mb-2 block text-sm font-medium">Daily Goal</label>
+                    <input id="habitGoal" type="number" min="1" value="1"
+                        class="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3">
+                </div>
+                <!-- Notes -->
+                <div>
+                    <label for="habitNotes" class="mb-2 block text-sm font-medium">Notes</label>
+                    <textarea id="habitNotes" rows="4" placeholder="Optional..."
+                        class="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 resize-none"></textarea>
+                </div>
+                <!-- Habit Icon -->
+                <div>
+                    <label class="mb-2 block text-sm font-medium">Icon</label>
+                    <div id="habitIconPicker" class="grid grid-cols-6 gap-3 sm:grid-cols-8"></div>
+                </div>
+                <!-- Habit Color -->
+                <div>
+                    <label class="mb-2 block text-sm font-medium">Color</label>
+                    <div id="habitColorPicker" class="flex flex-wrap gap-3"></div>
+                </div>
+                <!-- Modal Footer -->
+                <footer class="flex flex-col-reverse gap-3 border-t border-slate-800 pt-6 sm:flex-row sm:justify-end">
+                    <button id="cancelHabitBtn" type="button"
+                        class="rounded-xl border border-slate-700 px-5 py-3 transition hover:bg-slate-800">Cancel</button>
+                    <button id="saveHabitBtn" type="submit"
+                        class="rounded-xl bg-cyan-500 px-5 py-3 font-semibold text-slate-950 transition hover:bg-cyan-400">Save
+                        Habit</button>
+                </footer>
+            </form>
+        </div>
+    </div>
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal"
+        class="fixed inset-0 z-[55] hidden items-center justify-center bg-black/70 p-6 backdrop-blur-sm">
         <!-- Modal -->
-         <div class="w-full max-w-md rounded-3xl border border-slate-800 bg-slate-900">
+        <div class="w-full max-w-md rounded-3xl border border-slate-800 bg-slate-900">
             <!-- Header -->
-             <header class="p-6 text-center">
+            <header class="p-6 text-center">
                 <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-red-500/15">
                     <i data-lucide="triangle-alert" class="h-8 w-8 text-red-400"></i>
                 </div>
                 <h2 class="mt-5 text-2xl font-bold">Delete Habit?</h2>
-                <p class="mt-2 text-sm leading-6 text-slate-400">This action cannot be undone. Your progress, streak, and history for this habit will be permanently removed.</p>
-             </header>
-             <!-- Footer -->
-              <footer class="flex flex-col-reverse gap-3 border-t border-slate-800 p-6 sm:flex-row sm:justify-end">
-                <button id="cancelDeleteBtn" type="button" class="rounded-xl border border-slate-700 px-5 py-3 transition hover:bg-slate-800">Cancel</button>
-                <button id="confirmDeleteBtn" type="button" class="rounded-xl bg-red-500 px-5 py-3 font-semibold text-white transition hover:bg-red-400">Delete Habit</button>
-              </footer>
-         </div>
-      </div>
-      <!-- Mobile Navigation -->
-       <div id="mobileSidebar" class="fixed inset-0 z-[45] hidden">
+                <p class="mt-2 text-sm leading-6 text-slate-400">This action cannot be undone. Your progress, streak,
+                    and history for this habit will be permanently removed.</p>
+            </header>
+            <!-- Footer -->
+            <footer class="flex flex-col-reverse gap-3 border-t border-slate-800 p-6 sm:flex-row sm:justify-end">
+                <button id="cancelDeleteBtn" type="button"
+                    class="rounded-xl border border-slate-700 px-5 py-3 transition hover:bg-slate-800">Cancel</button>
+                <button id="confirmDeleteBtn" type="button"
+                    class="rounded-xl bg-red-500 px-5 py-3 font-semibold text-white transition hover:bg-red-400">Delete
+                    Habit</button>
+            </footer>
+        </div>
+    </div>
+    <!-- Mobile Navigation -->
+    <div id="mobileSidebar" class="fixed inset-0 z-[45] hidden">
         <!-- Overlay -->
-         <div id="mobileSidebarOverlay" class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
-         <!-- Drawer -->
-          <aside class="absolute left-0 top-0 flex h-full w-72 flex-col border-r border-slate-800 bg-slate-950">
+        <div id="mobileSidebarOverlay" class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+        <!-- Drawer -->
+        <aside class="absolute left-0 top-0 flex h-full w-72 flex-col border-r border-slate-800 bg-slate-950">
             <!-- Header -->
-             <header class="flex items-center justify-between border-b border-slate-800 p-6">
+            <header class="flex items-center justify-between border-b border-slate-800 p-6">
                 <div>
                     <h2 class="text-xl font-bold">Habit Tracker</h2>
                     <p class="mt-1 text-sm text-slate-400">Stay Consistent.</p>
@@ -429,24 +446,26 @@
                 <button id="closeMobileSidebarBtn" class="rounded-xl p-2 transition hover:bg-slate-800">
                     <i data-lucide="x" class=" h-5 w-5"></i>
                 </button>
-             </header>
-             <!-- Navigation -->
-              <nav id="mobileNavigation" class="flex-1 space-y-2 p-6"></nav>
-              <!-- Footer -->
-               <footer class="border-t border-slate-800 p-6">
-                <button id="mobileThemeBtn" class="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-700 px-4 py-3 transition hover:bg-slate-800">
+            </header>
+            <!-- Navigation -->
+            <nav id="mobileNavigation" class="flex-1 space-y-2 p-6"></nav>
+            <!-- Footer -->
+            <footer class="border-t border-slate-800 p-6">
+                <button id="mobileThemeBtn"
+                    class="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-700 px-4 py-3 transition hover:bg-slate-800">
                     <i data-lucide="moon" class="h-5 w-5"></i>
                     <span>Toggle Theme</span>
                 </button>
-               </footer>
-          </aside>
-       </div>
+            </footer>
+        </aside>
+    </div>
     <!-- Toast Notification -->
-     <div id="toastContainer" class="fixed right-8 top-8 z-50 flex w-full max-w-sm flex-col gap-3"></div>
+    <div id="toastContainer" class="fixed right-8 top-8 z-50 flex w-full max-w-sm flex-col gap-3"></div>
     <!-- Floating Action Button (FAB) -->
-     <button id="fabAddHabit" class="fixed bottom-8 right-8 z-40 flex h-16 w-16 items-center justify-center rounded-full bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/20 transition hover:scale-105 hover:bg-cyan-400 active:scale-95">
+    <button id="fabAddHabit"
+        class="fixed bottom-8 right-8 z-40 flex h-16 w-16 items-center justify-center rounded-full bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/20 transition hover:scale-105 hover:bg-cyan-400 active:scale-95">
         <i data-lucide="plus" class="h-7 w-7"></i>
-     </button>
+    </button>
     <script src="assets/main.js"></script>
 </body>
 </html>

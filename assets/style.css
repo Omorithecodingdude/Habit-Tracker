@@ -1,0 +1,56 @@
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    overflow: hidden;
+}
+
+::selection {
+    background: rgb(6 182 212 / 0.35);
+    color: white;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #020617;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #334155;
+    border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #475569;
+}
+
+#loadingScreen {
+    transition: opacity .35s ease, visibility .35s ease;
+}
+
+#loadingScreen.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+article, #todayHabits, #dailyProgress, #weeklyGoal {
+    transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+
+article:hover, #todayHabits:hover, #dailyProgress:hover, #weeklyGoal:hover {
+    transform: translateY(-2px);
+    border-color: rgb(14 165 233);
+    box-shadow: 0 0 25px rgba(14,165,233,.08);
+}
+
+button {
+    transition: transform .18s ease, background .2s ease, opacity .2s ease;
+}
+
+button:active {
+    transform: scale(.96);
+}
