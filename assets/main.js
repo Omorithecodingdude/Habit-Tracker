@@ -21,6 +21,9 @@ const UI = {
     closeHabitModal: document.getElementById("closeHabitModal"),
     cancelHabitBtn: document.getElementById("cancelHabitBtn"),
     habitForm: document.getElementById("habitForm"),
+    todayHabits: document.getElementById("todayHabits"),
+    habitList: document.getElementById("habitList"),
+    emptyHabitState: document.getElementById("emptyHabitState"),
 }
 
 const Navigation = [
@@ -151,6 +154,24 @@ function saveHabit(event) {
     console.log(app.habits);
     resetHabitForm();
     closeHabitModal();
+}
+
+function renderHabits() {
+    UI.habitList.innerHTML = "";
+
+    if (app.habit.length === 0) {
+        UI.habitList.classList.add("hidden");
+        UI.emptyHabitState.classList.remove("hidden");
+
+        return;
+    }
+
+    UI.habitList.classList.remove("hidden");
+    UI.emptyHabitState.classList.add("hidden");
+
+    app.habits.forEach(habit => {
+        
+    })
 }
 
 function init() {
