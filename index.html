@@ -117,7 +117,7 @@
         </div>
 
         <!-- Stats -->
-        <div class="stats-grid">
+        <div class="stats-grid" id="statsGrid">
           <div class="card stat-card">
             <div class="stat-value" id="statStreak">0</div>
             <div class="stat-label">Current Streak</div>
@@ -131,14 +131,14 @@
             <div class="stat-label">Today's Progress</div>
           </div>
           <div class="card stat-card">
-            <div class="stat-value" id="statAchievements">0/32</div>
+            <div class="stat-value" id="statAchievements">0/10</div>
             <div class="stat-label">Achievements</div>
           </div>
         </div>
 
         <!-- Today's Habits -->
-        <div class="card" style="margin-bottom:1.5rem;">
-          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1rem;">
+        <div class="card" id="habitsSection" style="margin-bottom:1.5rem;">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1rem; flex-wrap:wrap; gap:0.75rem;">
             <div>
               <h3 style="font-weight:600; color:var(--text-primary);">Today's Habits</h3>
               <p style="font-size:0.85rem; color:var(--text-muted);">Complete your daily routine.</p>
@@ -160,7 +160,7 @@
         </div>
 
         <!-- Heatmap -->
-        <div class="card">
+        <div class="card" id="heatmapSection">
           <h3 style="font-weight:600; color:var(--text-primary); margin-bottom:0.5rem;">Activity Heatmap</h3>
           <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">Your consistency over the last 365 days.</p>
           <div class="heatmap-grid" id="heatmapGrid"></div>
@@ -268,18 +268,19 @@
         </div>
       </div>
 
-      <!-- Placeholder pages -->
-      <div id="page-habits" class="hidden">
-        <div class="page-header"><h2>Habits</h2><p>Manage all your habits.</p></div>
-      </div>
-      <div id="page-calendar" class="hidden">
-        <div class="page-header"><h2>Calendar</h2><p>View your habit history.</p></div>
-      </div>
-      <div id="page-statistics" class="hidden">
-        <div class="page-header"><h2>Statistics</h2><p>Analyze your progress.</p></div>
-      </div>
+      <!-- Achievements Page -->
       <div id="page-achievements" class="hidden">
-        <div class="page-header"><h2>Achievements</h2><p>Unlock rewards by staying consistent.</p></div>
+        <div class="page-header">
+          <h2>Achievements</h2>
+          <p>Unlock rewards by staying consistent.</p>
+        </div>
+        <div class="card">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1.25rem;">
+            <h3 style="font-weight:600; color:var(--text-primary);">Your Badges</h3>
+            <span id="achievementsCount" style="font-size:0.85rem; color:var(--text-muted);">0 / 10 unlocked</span>
+          </div>
+          <div class="achievements-grid" id="achievementsGrid"></div>
+        </div>
       </div>
 
     </main>
@@ -294,7 +295,7 @@
   <div class="modal-overlay" id="habitModal">
     <div class="modal-box">
       <div class="modal-header">
-        <h3>Add Habit</h3>
+        <h3 id="habitModalTitle">Add Habit</h3>
         <button class="modal-close" id="closeHabitModal">
           <i data-lucide="x" style="width:16px;height:16px;"></i>
         </button>
