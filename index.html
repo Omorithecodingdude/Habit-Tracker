@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Habit Tracker</title>
+  <meta name="description" content="Track your daily habits, build streaks, and unlock achievements. Stay consistent with Habit Tracker." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/style.css" />
@@ -91,9 +92,12 @@
         </div>
       </div>
 
+      <!-- User Avatar -->
+      <div id="userAvatar" class="sidebar-user"></div>
+
       <nav id="sidebarNav" style="flex:1;"></nav>
 
-      <!-- Theme Toggle di Sidebar -->
+      <!-- Theme Toggle -->
       <button id="themeToggleBtn" class="nav-btn" style="margin-top:auto;">
         <i data-lucide="moon" id="themeIcon"></i>
         <span id="themeLabel">Dark Mode</span>
@@ -116,23 +120,29 @@
           <p id="pageDescription">Welcome back! Keep your streak alive.</p>
         </div>
 
+        <!-- Quote of the Day -->
+        <div class="quote-card" id="quoteCard">
+          <div class="quote-icon">💡</div>
+          <blockquote id="dailyQuote"></blockquote>
+        </div>
+
         <!-- Stats -->
         <div class="stats-grid" id="statsGrid">
           <div class="card stat-card">
             <div class="stat-value" id="statStreak">0</div>
-            <div class="stat-label">Current Streak</div>
+            <div class="stat-label">🔥 Current Streak</div>
           </div>
           <div class="card stat-card">
             <div class="stat-value" id="statLevel">1</div>
-            <div class="stat-label">Level</div>
+            <div class="stat-label">⭐ Level</div>
           </div>
           <div class="card stat-card">
             <div class="stat-value" id="statProgress">0%</div>
-            <div class="stat-label">Today's Progress</div>
+            <div class="stat-label">✅ Today's Progress</div>
           </div>
           <div class="card stat-card">
             <div class="stat-value" id="statAchievements">0/10</div>
-            <div class="stat-label">Achievements</div>
+            <div class="stat-label">🏆 Achievements</div>
           </div>
         </div>
 
@@ -149,7 +159,7 @@
             </button>
           </div>
 
-          <div id="habitList" style="display:grid; gap:1rem;"></div>
+          <div id="habitList" style="display:grid; gap:0.875rem;"></div>
 
           <div id="emptyHabitState" class="empty-state">
             <i data-lucide="clipboard-list"></i>
@@ -176,6 +186,124 @@
         </div>
       </div>
 
+      <!-- ===== MY HABITS PAGE ===== -->
+      <div id="page-habits" class="hidden">
+        <div class="page-header">
+          <h2>My Habits</h2>
+          <p>Manage, search, and filter all your habits.</p>
+        </div>
+
+        <div class="card filter-bar" style="margin-bottom:1.5rem;">
+          <div style="display:flex; gap:0.75rem; flex-wrap:wrap; align-items:center;">
+            <input type="text" id="habitSearch" class="form-control" placeholder="🔍  Search habits..." style="flex:1; min-width:140px;" />
+            <select id="habitFilterCategory" class="form-control" style="width:auto; min-width:130px;">
+              <option value="">All Categories</option>
+              <option value="Health">Health</option>
+              <option value="Study">Study</option>
+              <option value="Fitness">Fitness</option>
+              <option value="Work">Work</option>
+              <option value="Personal">Personal</option>
+            </select>
+            <select id="habitFilterPriority" class="form-control" style="width:auto; min-width:130px;">
+              <option value="">All Priorities</option>
+              <option value="High">High</option>
+              <option value="Medium">Medium</option>
+              <option value="Low">Low</option>
+            </select>
+            <select id="habitSort" class="form-control" style="width:auto; min-width:130px;">
+              <option value="created">Newest First</option>
+              <option value="name">Name A–Z</option>
+              <option value="streak">Best Streak</option>
+              <option value="priority">Priority</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="allHabitsList" style="display:grid; gap:0.875rem;"></div>
+        <div id="allHabitsEmpty" class="empty-state hidden">
+          <i data-lucide="search-x"></i>
+          <h4>No habits found</h4>
+          <p>Try adjusting your filters, or add a new habit.</p>
+          <button class="btn btn-primary" style="margin-top:1rem;" id="habitsPageAddBtn">Add Habit</button>
+        </div>
+      </div>
+
+      <!-- ===== CALENDAR PAGE ===== -->
+      <div id="page-calendar" class="hidden">
+        <div class="page-header">
+          <h2>Calendar</h2>
+          <p>View your daily habit completion history.</p>
+        </div>
+
+        <div class="card" style="margin-bottom:1.5rem;">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1.25rem;">
+            <button class="btn btn-ghost" id="calPrev">
+              <i data-lucide="chevron-left" style="width:16px;height:16px;"></i>
+            </button>
+            <h3 id="calMonthLabel" style="font-weight:700; color:var(--text-primary); font-size:1.1rem;"></h3>
+            <button class="btn btn-ghost" id="calNext">
+              <i data-lucide="chevron-right" style="width:16px;height:16px;"></i>
+            </button>
+          </div>
+          <div class="calendar-weekdays">
+            <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+          </div>
+          <div id="calendarGrid" class="calendar-grid"></div>
+        </div>
+
+        <div class="card">
+          <h3 style="font-weight:600; color:var(--text-primary); margin-bottom:0.9rem;">Legend</h3>
+          <div style="display:flex; gap:1.5rem; flex-wrap:wrap; font-size:0.82rem; color:var(--text-secondary);">
+            <span style="display:flex;align-items:center;gap:0.5rem;"><span class="legend-dot" style="background:var(--bg-hover);"></span> No habits</span>
+            <span style="display:flex;align-items:center;gap:0.5rem;"><span class="legend-dot" style="background:rgba(14,165,233,0.4);"></span> Partial</span>
+            <span style="display:flex;align-items:center;gap:0.5rem;"><span class="legend-dot" style="background:rgba(34,197,94,0.5);"></span> All done! 🎉</span>
+            <span style="display:flex;align-items:center;gap:0.5rem;"><span class="legend-dot today-legend"></span> Today</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== STATISTICS PAGE ===== -->
+      <div id="page-statistics" class="hidden">
+        <div class="page-header">
+          <h2>Statistics</h2>
+          <p>Deep dive into your habit performance.</p>
+        </div>
+
+        <div class="stats-grid" style="margin-bottom:1.5rem;">
+          <div class="card stat-card">
+            <div class="stat-value" id="statTotalCompletions">0</div>
+            <div class="stat-label">Total Completions</div>
+          </div>
+          <div class="card stat-card">
+            <div class="stat-value" id="statBestStreak">0</div>
+            <div class="stat-label">Best Streak Ever</div>
+          </div>
+          <div class="card stat-card">
+            <div class="stat-value" id="statPerfectDays">0</div>
+            <div class="stat-label">Perfect Days</div>
+          </div>
+          <div class="card stat-card">
+            <div class="stat-value" id="statTotalXP">0</div>
+            <div class="stat-label">Total XP Earned</div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:1.5rem;">
+          <h3 style="font-weight:600; color:var(--text-primary); margin-bottom:1.5rem;">Last 7 Days Completion</h3>
+          <div id="weeklyChart" class="weekly-chart"></div>
+        </div>
+
+        <div class="card">
+          <h3 style="font-weight:600; color:var(--text-primary); margin-bottom:1.25rem;">Habit Completion Rate</h3>
+          <div id="habitBreakdown" style="display:grid; gap:0.9rem;"></div>
+          <div id="habitBreakdownEmpty" class="empty-state hidden">
+            <i data-lucide="bar-chart-2"></i>
+            <h4>No data yet</h4>
+            <p>Start completing habits to see your breakdown.</p>
+          </div>
+        </div>
+      </div>
+
       <!-- ===== SETTINGS PAGE ===== -->
       <div id="page-settings" class="hidden">
         <div class="page-header">
@@ -183,7 +311,7 @@
           <p>Manage your preferences and account.</p>
         </div>
 
-        <!-- Profile Section -->
+        <!-- Profile -->
         <div class="card settings-section">
           <h3>Profile</h3>
           <div class="form-group">
@@ -197,7 +325,7 @@
           <button class="btn btn-primary" id="saveProfileBtn">Save Changes</button>
         </div>
 
-        <!-- Appearance Section -->
+        <!-- Appearance -->
         <div class="card settings-section">
           <h3>Appearance</h3>
           <div class="setting-item">
@@ -213,7 +341,7 @@
           </div>
         </div>
 
-        <!-- Notifications Section -->
+        <!-- Notifications -->
         <div class="card settings-section">
           <h3>Notifications</h3>
           <div class="setting-item">
@@ -248,6 +376,21 @@
           </div>
         </div>
 
+        <!-- Data -->
+        <div class="card settings-section">
+          <h3>Data</h3>
+          <div class="setting-item">
+            <div class="setting-info">
+              <h4>Export Data</h4>
+              <p>Download all your habit data as a JSON file</p>
+            </div>
+            <button class="btn btn-ghost" id="exportDataBtn">
+              <i data-lucide="download" style="width:15px;height:15px;"></i>
+              Export
+            </button>
+          </div>
+        </div>
+
         <!-- Danger Zone -->
         <div class="card settings-section" style="border-color: var(--danger);">
           <h3 style="color:var(--danger);">Danger Zone</h3>
@@ -261,14 +404,14 @@
           <div class="setting-item">
             <div class="setting-info">
               <h4>Delete Account</h4>
-              <p>Permanently delete your account</p>
+              <p>Permanently delete your account and all data</p>
             </div>
             <button class="btn btn-danger" id="deleteAccountBtn">Delete</button>
           </div>
         </div>
       </div>
 
-      <!-- Achievements Page -->
+      <!-- ===== ACHIEVEMENTS PAGE ===== -->
       <div id="page-achievements" class="hidden">
         <div class="page-header">
           <h2>Achievements</h2>
@@ -290,6 +433,9 @@
   <button class="fab hidden" id="fabAddHabit">
     <i data-lucide="plus" style="width:24px;height:24px;"></i>
   </button>
+
+  <!-- ========== TOAST CONTAINER ========== -->
+  <div id="toastContainer" class="toast-container"></div>
 
   <!-- ========== ADD HABIT MODAL ========== -->
   <div class="modal-overlay" id="habitModal">
