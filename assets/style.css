@@ -776,21 +776,184 @@ textarea.form-control {
 }
 
 /* ========== HEATMAP ========== */
+.heatmap-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.heatmap-range-selector {
+  display: flex;
+  gap: 4px;
+  background: var(--bg-hover);
+  padding: 3px;
+  border-radius: 10px;
+}
+
+.range-btn {
+  padding: 0.35rem 0.75rem;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 500;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.range-btn:hover {
+  color: var(--text-primary);
+}
+
+.range-btn.active {
+  background: var(--bg-card);
+  color: var(--accent);
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.heatmap-scroll-container {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 0.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+.heatmap-wrapper {
+  display: inline-flex;
+  flex-direction: column;
+  min-width: max-content;
+  user-select: none;
+}
+
+.heatmap-months {
+  display: flex;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  height: 18px;
+  margin-left: 32px;
+  position: relative;
+}
+
+.heatmap-month-label {
+  position: absolute;
+  font-weight: 600;
+}
+
+.heatmap-body {
+  display: flex;
+  gap: 6px;
+}
+
+.heatmap-days-col {
+  display: grid;
+  grid-template-rows: repeat(7, 13px);
+  gap: 3px;
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  width: 26px;
+  flex-shrink: 0;
+}
+
+.heatmap-days-col span {
+  display: flex;
+  align-items: center;
+  height: 13px;
+  line-height: 1;
+}
+
+.heatmap-days-col span:nth-child(1) { grid-row: 2; }
+.heatmap-days-col span:nth-child(2) { grid-row: 4; }
+.heatmap-days-col span:nth-child(3) { grid-row: 6; }
+
 .heatmap-grid {
   display: grid;
-  grid-template-columns: repeat(52, 1fr);
+  grid-template-rows: repeat(7, 13px);
+  grid-auto-flow: column;
+  grid-auto-columns: 13px;
   gap: 3px;
 }
+
 .heatmap-cell {
-  width: 12px;
-  height: 12px;
+  width: 13px;
+  height: 13px;
   border-radius: 3px;
   background: var(--bg-hover);
+  transition: transform 0.15s ease, outline 0.15s ease;
+  cursor: pointer;
 }
-.heatmap-cell.level-1 { background: rgba(14,165,233,0.2); }
-.heatmap-cell.level-2 { background: rgba(14,165,233,0.45); }
-.heatmap-cell.level-3 { background: rgba(14,165,233,0.68); }
-.heatmap-cell.level-4 { background: rgba(14,165,233,0.92); }
+
+.heatmap-cell.empty {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.heatmap-cell:hover,
+.heatmap-cell:active {
+  transform: scale(1.3);
+  z-index: 5;
+  outline: 2px solid var(--accent);
+}
+
+.heatmap-cell.level-1 { background: rgba(14,165,233,0.25); }
+.heatmap-cell.level-2 { background: rgba(14,165,233,0.55); }
+.heatmap-cell.level-3 { background: rgba(14,165,233,0.80); }
+.heatmap-cell.level-4 { background: #0ea5e9; box-shadow: 0 0 8px rgba(14,165,233,0.5); }
+
+.heatmap-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.heatmap-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.heatmap-legend {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Tooltip floating */
+.heatmap-tooltip {
+  position: fixed;
+  z-index: 9999;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  border-radius: 12px;
+  padding: 0.6rem 0.9rem;
+  font-size: 0.78rem;
+  color: var(--text-primary);
+  pointer-events: none;
+  transform: translate(-50%, -100%);
+  margin-top: -10px;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  white-space: nowrap;
+}
+
+.heatmap-tooltip strong {
+  color: var(--accent);
+  display: block;
+  margin-bottom: 2px;
+}
 
 /* ========== ACHIEVEMENTS ========== */
 .achievements-grid {
@@ -798,6 +961,7 @@ textarea.form-control {
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 1rem;
 }
+
 .achievement-card {
   display: flex;
   align-items: center;
@@ -1032,16 +1196,16 @@ textarea.form-control {
   justify-content: center;
   font-size: 0.8rem;
   font-weight: 500;
-  cursor: default;
+  cursor: pointer;
   background: var(--bg-hover);
   color: var(--text-secondary);
   transition: transform 0.15s ease;
 }
-.cal-day.empty   { background: transparent; }
+.cal-day.empty   { background: transparent; cursor: default; }
 .cal-day.today   { border: 2px solid var(--accent); color: var(--accent); font-weight: 700; }
 .cal-day.perfect { background: rgba(34,197,94,0.22); color: var(--success); font-weight: 600; }
 .cal-day.partial { background: rgba(14,165,233,0.18); color: var(--accent); }
-.cal-day.future  { opacity: 0.28; }
+.cal-day.future  { opacity: 0.28; cursor: default; }
 
 @media (hover: hover) and (pointer: fine) {
   .cal-day:not(.empty):not(.future):hover {
@@ -1068,74 +1232,111 @@ textarea.form-control {
   display: none !important;
 }
 
-/* ========== RESPONSIVE ========== */
+/* ========== MOBILE HEADER & BOTTOM NAV ========== */
+.mobile-header {
+  display: none;
+}
+
+.bottom-nav {
+  display: none;
+}
+
 @media (max-width: 768px) {
+  .app-container {
+    flex-direction: column;
+    height: 100vh;
+  }
+
   .sidebar {
-    width: 70px;
-    padding: 1rem 0.5rem;
+    display: none !important;
   }
-  .sidebar-logo h1,
-  .sidebar-logo span,
-  .nav-btn span,
-  #themeLabel,
-  #logoutBtn span,
-  .sidebar-user .user-info {
-    display: none;
+
+  .mobile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    flex-shrink: 0;
   }
-  .sidebar-logo {
-    justify-content: center;
-    padding: 0;
-  }
-  .sidebar-user {
-    justify-content: center;
-    padding: 0.5rem;
-  }
-  .nav-btn {
-    justify-content: center;
-    padding: 0.75rem;
-  }
+
   .main-content {
-    padding: 1rem;
+    padding: 1rem 1rem 85px 1rem;
+    flex: 1;
+    overflow-y: auto;
   }
-  .stats-grid {
-    grid-template-columns: repeat(2, 1fr);
+
+  .bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 64px;
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+    z-index: 1000;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 0.25rem;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
   }
-  .page-header h2 {
-    font-size: 1.4rem;
+
+  .bottom-nav-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    flex: 1;
+    height: 100%;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 0.68rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.15s ease;
+    font-family: inherit;
   }
+
+  .bottom-nav-btn:active {
+    transform: scale(0.92);
+  }
+
+  .bottom-nav-btn.active {
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .bottom-nav-btn i, .bottom-nav-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+
   .fab {
-    bottom: 1.25rem;
+    bottom: 5rem;
     right: 1.25rem;
     width: 52px;
     height: 52px;
   }
-  .modal-box {
-    padding: 1.5rem;
-    width: calc(100% - 2rem);
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
-  .auth-card {
-    padding: 1.75rem;
-  }
-  .habit-actions { flex-wrap: wrap; }
-  .theme-options { flex-wrap: wrap; }
-  .weekly-chart  { gap: 0.35rem; height: 120px; }
-  .chart-pct     { font-size: 0.6rem; }
-  .calendar-grid { gap: 3px; }
-  .cal-day       { border-radius: 7px; font-size: 0.72rem; }
-  .habit-stat-name-wrap { width: 100px; }
-  .achievements-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 420px) {
   .stats-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: 0.75rem;
   }
   .stat-card .stat-value {
-    font-size: 1.5rem;
-  }
-  .heatmap-grid {
-    grid-template-columns: repeat(26, 1fr);
+    font-size: 1.4rem;
   }
   .setting-item {
     flex-wrap: wrap;

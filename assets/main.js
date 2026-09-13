@@ -39,6 +39,7 @@ const app = {
   history: [],
   deleteTargetId: null,
   editingHabitId: null,
+  heatmapRange: 90,
 };
 
 let calendarViewDate = new Date();
@@ -51,6 +52,9 @@ const UI = {
   appContainer:    document.getElementById("appContainer"),
   fabAddHabit:     document.getElementById("fabAddHabit"),
   sidebarNav:      document.getElementById("sidebarNav"),
+  bottomNav:       document.getElementById("bottomNav"),
+  mobileThemeBtn:  document.getElementById("mobileThemeBtn"),
+  mobileThemeIcon: document.getElementById("mobileThemeIcon"),
   mainContent:     document.getElementById("mainContent"),
   userAvatar:      document.getElementById("userAvatar"),
   toastContainer:  document.getElementById("toastContainer"),
@@ -71,6 +75,9 @@ const UI = {
   habitList:        document.getElementById("habitList"),
   emptyHabitState:  document.getElementById("emptyHabitState"),
   heatmapGrid:      document.getElementById("heatmapGrid"),
+  heatmapScrollContainer: document.getElementById("heatmapScrollContainer"),
+  heatmapMonths:    document.getElementById("heatmapMonths"),
+  heatmapTooltip:   document.getElementById("heatmapTooltip"),
   dailyQuote:       document.getElementById("dailyQuote"),
   // Habit modal
   habitModal:      document.getElementById("habitModal"),
@@ -95,6 +102,7 @@ const UI = {
   resetDataBtn:     document.getElementById("resetDataBtn"),
   deleteAccountBtn: document.getElementById("deleteAccountBtn"),
   exportDataBtn:    document.getElementById("exportDataBtn"),
+  importDataInput:  document.getElementById("importDataInput"),
   notifDaily:       document.getElementById("notifDaily"),
   notifStreak:      document.getElementById("notifStreak"),
   notifWeekly:      document.getElementById("notifWeekly"),
@@ -116,6 +124,10 @@ const UI = {
   calendarGrid:  document.getElementById("calendarGrid"),
   calPrev:       document.getElementById("calPrev"),
   calNext:       document.getElementById("calNext"),
+  calDayDetailCard: document.getElementById("calDayDetailCard"),
+  calDayDetailTitle: document.getElementById("calDayDetailTitle"),
+  calDayDetailList: document.getElementById("calDayDetailList"),
+  closeCalDayDetail: document.getElementById("closeCalDayDetail"),
   // Statistics
   weeklyChart:            document.getElementById("weeklyChart"),
   habitBreakdown:         document.getElementById("habitBreakdown"),
@@ -208,6 +220,7 @@ function updateThemeUI(resolved) {
   const icon  = resolved === "dark" ? "moon" : "sun";
   const label = resolved === "dark" ? "Dark Mode" : "Light Mode";
   UI.themeIcon.setAttribute("data-lucide", icon);
+  if (UI.mobileThemeIcon) UI.mobileThemeIcon.setAttribute("data-lucide", icon);
   UI.themeLabel.textContent = label;
   UI.themeOptions.forEach(btn => {
     btn.classList.toggle("active", btn.dataset.themeChoice === app.settings.theme);
@@ -276,6 +289,7 @@ function showApp() {
   app.isLoggedIn = true;
   renderUserAvatar();
   renderSidebar();
+  renderBottomNav();
   renderQuote();
   renderHabits();
   updateDashboard();
@@ -384,10 +398,23 @@ function renderSidebar() {
   lucide.createIcons();
 }
 
+function renderBottomNav() {
+  if (!UI.bottomNav) return;
+  clear(UI.bottomNav);
+  navigation.forEach(m => {
+    const btn = createElement("button", `bottom-nav-btn${m.id === app.currentPage ? " active" : ""}`);
+    btn.dataset.page = m.id;
+    btn.append(createIcon(m.icon, 20), Object.assign(createElement("span"), { textContent: m.label }));
+    btn.addEventListener("click", () => navigateTo(m.id));
+    UI.bottomNav.append(btn);
+  });
+  lucide.createIcons();
+}
+
 function navigateTo(pageId) {
   app.currentPage = pageId;
 
-  document.querySelectorAll(".nav-btn[data-page]").forEach(btn => {
+  document.querySelectorAll(".nav-btn[data-page], .bottom-nav-btn[data-page]").forEach(btn => {
     btn.classList.toggle("active", btn.dataset.page === pageId);
   });
 
@@ -602,20 +629,112 @@ function updateDashboard() {
 }
 
 // ========== HEATMAP ==========
+function showHeatmapTooltip(e) {
+  const cell = e.currentTarget;
+  if (!cell.dataset.date || !UI.heatmapTooltip) return;
+
+  const date = cell.dataset.date;
+  const count = Number(cell.dataset.count || 0);
+  const total = Number(cell.dataset.total || 0);
+  const habits = cell.dataset.habits;
+
+  const rect = cell.getBoundingClientRect();
+  const pct = total > 0 ? Math.round((count / total) * 100) : 0;
+
+  let text = `<strong>${date}</strong>${count}/${total} habit selesai (${pct}%)`;
+  if (habits) text += `<br><span style="color:var(--text-secondary); font-size:0.72rem;">✓ ${habits.split(', ').join(', ')}</span>`;
+
+  UI.heatmapTooltip.innerHTML = text;
+  UI.heatmapTooltip.style.left = `${rect.left + rect.width / 2}px`;
+  UI.heatmapTooltip.style.top = `${rect.top}px`;
+  UI.heatmapTooltip.classList.remove("hidden");
+}
+
+function hideHeatmapTooltip() {
+  if (UI.heatmapTooltip) UI.heatmapTooltip.classList.add("hidden");
+}
+
 function renderHeatmap() {
+  if (!UI.heatmapGrid) return;
   clear(UI.heatmapGrid);
-  const total = app.habits.length;
-  for (let i = 364; i >= 0; i--) {
-    const key   = daysAgoKey(i);
-    const count = total === 0 ? 0 : app.habits.filter(h => isDoneOnDate(h, key)).length;
-    const cell  = createElement("div", "heatmap-cell");
-    if (count > 0 && total > 0) {
-      const r = count / total;
-      cell.classList.add(r >= 1 ? "level-4" : r >= 0.75 ? "level-3" : r >= 0.5 ? "level-2" : "level-1");
+  if (UI.heatmapMonths) clear(UI.heatmapMonths);
+
+  const range = app.heatmapRange || 90;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const startDate = new Date(today);
+  startDate.setDate(startDate.getDate() - (range - 1));
+
+  // Find Sunday of the start week
+  const startOfWeek = new Date(startDate);
+  startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
+
+  const totalHabits = app.habits.length;
+  const monthPositions = [];
+  let currentMonth = -1;
+  let weekIndex = 0;
+
+  let curr = new Date(startOfWeek);
+
+  while (curr <= today) {
+    const dayOfWeek = curr.getDay(); // 0 (Sun) .. 6 (Sat)
+    if (dayOfWeek === 0 && curr >= startDate) {
+      const m = curr.getMonth();
+      if (m !== currentMonth) {
+        currentMonth = m;
+        const mName = curr.toLocaleString("id-ID", { month: "short" });
+        monthPositions.push({ month: mName, col: weekIndex });
+      }
     }
-    cell.title = total === 0 ? key : `${key} — ${count}/${total} done`;
+
+    const key = dateKey(curr);
+    const cell = createElement("div", "heatmap-cell");
+
+    if (curr < startDate) {
+      cell.classList.add("empty");
+    } else {
+      const count = totalHabits === 0 ? 0 : app.habits.filter(h => isDoneOnDate(h, key)).length;
+      if (count > 0 && totalHabits > 0) {
+        const r = count / totalHabits;
+        cell.classList.add(r >= 1 ? "level-4" : r >= 0.75 ? "level-3" : r >= 0.5 ? "level-2" : "level-1");
+      }
+
+      const doneHabits = app.habits.filter(h => isDoneOnDate(h, key)).map(h => h.name);
+      const formattedDateStr = curr.toLocaleDateString("id-ID", { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+
+      cell.dataset.date = formattedDateStr;
+      cell.dataset.count = count;
+      cell.dataset.total = totalHabits;
+      cell.dataset.habits = doneHabits.join(", ");
+
+      cell.addEventListener("mouseenter", showHeatmapTooltip);
+      cell.addEventListener("mouseleave", hideHeatmapTooltip);
+      cell.addEventListener("click", showHeatmapTooltip);
+      cell.addEventListener("touchstart", showHeatmapTooltip, { passive: true });
+    }
+
     UI.heatmapGrid.append(cell);
+
+    if (dayOfWeek === 6) weekIndex++;
+    curr.setDate(curr.getDate() + 1);
   }
+
+  if (UI.heatmapMonths) {
+    monthPositions.forEach(mp => {
+      const lbl = createElement("span", "heatmap-month-label");
+      lbl.textContent = mp.month;
+      lbl.style.left = `${mp.col * 16}px`;
+      UI.heatmapMonths.append(lbl);
+    });
+  }
+
+  // Auto scroll to far right (today)
+  requestAnimationFrame(() => {
+    if (UI.heatmapScrollContainer) {
+      UI.heatmapScrollContainer.scrollLeft = UI.heatmapScrollContainer.scrollWidth;
+    }
+  });
 }
 
 // ========== MY HABITS PAGE ==========
@@ -652,13 +771,47 @@ function renderHabitsPage() {
 }
 
 // ========== CALENDAR PAGE ==========
+function showCalendarDayDetail(key, formattedDate) {
+  if (!UI.calDayDetailCard) return;
+
+  UI.calDayDetailTitle.textContent = `Detail: ${formattedDate}`;
+  clear(UI.calDayDetailList);
+
+  if (app.habits.length === 0) {
+    const p = createElement("p");
+    p.textContent = "Belum ada habit tersimpan.";
+    p.style.cssText = "color:var(--text-muted); font-size:0.85rem;";
+    UI.calDayDetailList.append(p);
+  } else {
+    app.habits.forEach(h => {
+      const done = isDoneOnDate(h, key);
+      const item = createElement("div");
+      item.style.cssText = "display:flex; align-items:center; justify-content:space-between; padding:0.6rem 0.85rem; background:var(--bg-hover); border-radius:10px; font-size:0.85rem;";
+
+      const nameSpan = createElement("span");
+      nameSpan.textContent = `${done ? "✅" : "⏳"} ${h.name}`;
+      nameSpan.style.color = done ? "var(--text-primary)" : "var(--text-muted)";
+      if (done) nameSpan.style.fontWeight = "600";
+
+      const catBadge = createElement("span", `category-tag cat-${h.category}`);
+      catBadge.textContent = h.category;
+
+      item.append(nameSpan, catBadge);
+      UI.calDayDetailList.append(item);
+    });
+  }
+
+  show(UI.calDayDetailCard);
+  UI.calDayDetailCard.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
 function renderCalendarPage() {
   const year     = calendarViewDate.getFullYear();
   const month    = calendarViewDate.getMonth();
   const today    = new Date();
   const todayStr = dateKey(today);
 
-  UI.calMonthLabel.textContent = calendarViewDate.toLocaleString("en-US", {
+  UI.calMonthLabel.textContent = calendarViewDate.toLocaleString("id-ID", {
     month: "long", year: "numeric"
   });
 
@@ -688,7 +841,12 @@ function renderCalendarPage() {
 
     const cell = createElement("div", cls);
     cell.textContent = day;
-    if (!isFuture && total > 0) cell.title = `${key}: ${done}/${total} done`;
+    const formattedDate = d.toLocaleDateString("id-ID", { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+
+    if (!isFuture) {
+      cell.title = `${formattedDate}: ${done}/${total} habit selesai`;
+      cell.addEventListener("click", () => showCalendarDayDetail(key, formattedDate));
+    }
     UI.calendarGrid.append(cell);
   }
 }
@@ -951,6 +1109,37 @@ function exportData() {
   showToast("Data exported successfully!", "success", "download");
 }
 
+function handleImportData(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(evt) {
+    try {
+      const data = JSON.parse(evt.target.result);
+      if (data && data.habits && Array.isArray(data.habits)) {
+        app.habits = data.habits;
+        if (data.stats) app.stats = data.stats;
+        if (data.achievements) app.achievements = data.achievements;
+        if (data.history) app.history = data.history;
+
+        saveUserData();
+        renderHabits();
+        updateDashboard();
+        renderHeatmap();
+        renderUserAvatar();
+        showToast("Data berhasil diimport! 🎉", "success");
+      } else {
+        showToast("Format file JSON tidak valid.", "danger");
+      }
+    } catch (err) {
+      showToast("Gagal membaca file data JSON.", "danger");
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = "";
+}
+
 // ========== EVENT LISTENERS ==========
 function setupEvents() {
   // Auth tabs
@@ -971,6 +1160,9 @@ function setupEvents() {
   UI.themeToggleBtn.addEventListener("click", () => {
     applyTheme(document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark");
   });
+  UI.mobileThemeBtn?.addEventListener("click", () => {
+    applyTheme(document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark");
+  });
   UI.themeOptions.forEach(btn => btn.addEventListener("click", () => applyTheme(btn.dataset.themeChoice)));
 
   // FAB & add buttons
@@ -978,6 +1170,19 @@ function setupEvents() {
   $("addHabitBtn")?.addEventListener("click", () => openHabitModal());
   $("emptyAddBtn")?.addEventListener("click", () => openHabitModal());
   UI.habitsPageAddBtn?.addEventListener("click", () => openHabitModal());
+
+  // Heatmap Range Buttons
+  document.querySelectorAll(".heatmap-range-selector .range-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".heatmap-range-selector .range-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      app.heatmapRange = Number(btn.dataset.range);
+      renderHeatmap();
+    });
+  });
+
+  // Calendar Day Detail Close
+  UI.closeCalDayDetail?.addEventListener("click", () => hide(UI.calDayDetailCard));
 
   // Habit modal
   UI.closeHabitModal.addEventListener("click",  () => closeModal(UI.habitModal));
@@ -1013,6 +1218,7 @@ function setupEvents() {
   UI.saveProfileBtn.addEventListener("click",  saveProfile);
   UI.resetDataBtn.addEventListener("click",    resetAllData);
   UI.exportDataBtn?.addEventListener("click",  exportData);
+  UI.importDataInput?.addEventListener("change", handleImportData);
   UI.notifDaily.addEventListener("change",  () => updateNotificationSetting("daily",  UI.notifDaily.checked));
   UI.notifStreak.addEventListener("change", () => updateNotificationSetting("streak", UI.notifStreak.checked));
   UI.notifWeekly.addEventListener("change", () => updateNotificationSetting("weekly", UI.notifWeekly.checked));
@@ -1052,6 +1258,12 @@ function setupEvents() {
     calendarViewDate.setMonth(calendarViewDate.getMonth() + 1);
     renderCalendarPage();
     lucide.createIcons();
+  });
+
+  // Tooltip dismiss on scroll or click outside
+  document.addEventListener("scroll", hideHeatmapTooltip, true);
+  document.addEventListener("click", e => {
+    if (!e.target.closest(".heatmap-cell")) hideHeatmapTooltip();
   });
 
   // Escape closes modals
